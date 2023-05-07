@@ -4,7 +4,39 @@ import (
 	"math/big"
 )
 
-//var primeList []*big.Int
+var primeList []*big.Int
+
+func init() {
+	primeList = append(primeList, big.NewInt(2))
+	primeList = append(primeList, big.NewInt(3))
+}
+
+func NthPrime(n int) *big.Int {
+	if n < len(primeList) {
+		return primeList[n]
+	}
+
+	zero := big.NewInt(0)
+	np := new(big.Int).Add(primeList[len(primeList)-1], big.NewInt(2))
+	for len(primeList) != n+1 {
+
+		noDiv := true
+		for i := 0; new(big.Int).Mul(primeList[i], primeList[i]).Cmp(np) <= 0; i++ {
+			if new(big.Int).Mod(np, primeList[i]).Cmp(zero) == 0 {
+				noDiv = false
+				break
+			}
+		}
+
+		if noDiv {
+			primeList = append(primeList, new(big.Int).Set(np))
+		}
+
+		np.Add(np, big.NewInt(2))
+	}
+
+	return primeList[n]
+}
 
 func PrimeFactors(n *big.Int) []*big.Int {
 	var factors []*big.Int
