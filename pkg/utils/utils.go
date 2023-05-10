@@ -22,3 +22,7 @@ func Lcm(a, b *big.Int) *big.Int {
 	p := new(big.Int).Mul(a, b)
 	return new(big.Int).Div(p, Gcd(a, b))
 }
+
+func IsPythagorean(a, b, c uint64) bool {
+	return a < b && b < c && a*a+b*b == c*c
+}
